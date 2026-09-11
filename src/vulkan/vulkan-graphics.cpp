@@ -80,6 +80,13 @@ namespace nvrhi::vulkan
                 .setLoadOp(vk::AttachmentLoadOp::eLoad)
                 .setStoreOp(vk::AttachmentStoreOp::eStore);
 
+            if(t->desc.useClearValue) {
+                const auto& cc = t->desc.clearValue;
+                attachmentInfo
+                    .setLoadOp(vk::AttachmentLoadOp::eClear)
+                    .setClearValue(vk::ClearColorValue(cc.r, cc.g, cc.b, cc.a));
+            }
+
             fb->resources.push_back(rt.texture);
         }
 
@@ -110,6 +117,13 @@ namespace nvrhi::vulkan
                 .setImageLayout(depthLayout)
                 .setLoadOp(vk::AttachmentLoadOp::eLoad)
                 .setStoreOp(vk::AttachmentStoreOp::eStore);
+
+            if(texture->desc.useClearValue) {
+                const auto& cc = texture->desc.clearValue;
+                fb->depthAttachment
+                    .setLoadOp(vk::AttachmentLoadOp::eClear)
+                    .setClearValue(vk::ClearColorValue(cc.r, cc.g, cc.b, cc.a));
+            }
 
             if (getFormatInfo(texture->desc.format).hasStencil)
                 fb->stencilAttachment = fb->depthAttachment;
