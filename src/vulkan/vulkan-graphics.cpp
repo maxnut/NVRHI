@@ -122,7 +122,7 @@ namespace nvrhi::vulkan
                 const auto& cc = texture->desc.clearValue;
                 fb->depthAttachment
                     .setLoadOp(vk::AttachmentLoadOp::eClear)
-                    .setClearValue(vk::ClearColorValue(cc.r, cc.g, cc.b, cc.a));
+                    .setClearValue(vk::ClearDepthStencilValue(cc.r, cc.g));
             }
 
             if (getFormatInfo(texture->desc.format).hasStencil)
